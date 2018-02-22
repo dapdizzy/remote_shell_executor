@@ -1,0 +1,9 @@
+%{"amqp": {:hex, :amqp, "0.2.4", "23f888b3f06147a93a71ca57b855d1d5da6ea1aa1214adfc0bec7398c268c999", [:mix], [{:amqp_client, "~> 3.6.8", [hex: :amqp_client, repo: "hexpm", optional: false]}, {:rabbit_common, "~> 3.6.8", [hex: :rabbit_common, repo: "hexpm", optional: false]}], "hexpm"},
+  "amqp_client": {:hex, :amqp_client, "3.6.15", "a171f78870adc9f6b7294a2974c30ea0817f0bbcee63acb0c469650452134608", [:make, :rebar3], [{:rabbit_common, "3.6.15", [hex: :rabbit_common, repo: "hexpm", optional: false]}], "hexpm"},
+  "earmark": {:hex, :earmark, "1.2.4", "99b637c62a4d65a20a9fb674b8cffb8baa771c04605a80c911c4418c69b75439", [:mix], [], "hexpm"},
+  "ex_doc": {:hex, :ex_doc, "0.18.3", "f4b0e4a2ec6f333dccf761838a4b253d75e11f714b85ae271c9ae361367897b7", [:mix], [{:earmark, "~> 1.1", [hex: :earmark, repo: "hexpm", optional: false]}], "hexpm"},
+  "rabbit_common": {:hex, :rabbit_common, "3.6.15", "ae0b822c206e4a4d6a176a47fed79c69ac7ba1d031305e081088cbc424e3aacf", [:make, :rebar3], [{:recon, "2.3.2", [hex: :recon, repo: "hexpm", optional: false]}], "hexpm"},
+  "rabbitmq_receiver": {:hex, :rabbitmq_receiver, "0.1.5", "7fd632c895a51e1fb880e2318f78a861fd55bdacf772688c5eda6d8d52e212fa", [:mix], [{:amqp, "~> 0.2.1", [hex: :amqp, repo: "hexpm", optional: false]}], "hexpm"},
+  "rabbitmq_sender": {:hex, :rabbitmq_sender, "0.1.8", "22d87095f3d1960e676b93c8109c560d3ab19f8872502d90764af60c8566e303", [:mix], [{:amqp, "~> 0.2.1", [hex: :amqp, repo: "hexpm", optional: false]}], "hexpm"},
+  "recon": {:hex, :recon, "2.3.2", "4444c879be323b1b133eec5241cb84bd3821ea194c740d75617e106be4744318", [:rebar3], [], "hexpm"},
+  "shell_executor": {:hex, :shell_executor, "0.1.5", "bf6a07e5f6a29457a134965dbe81add43ed1f2ab8dc52e2925d4fd5bf4eb3e71", [:mix], [], "hexpm"}}
