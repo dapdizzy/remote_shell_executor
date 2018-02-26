@@ -48,6 +48,23 @@ defmodule RemoteShellExecutor do
       end
   end
 
+  defp try_process_service_command(command) do
+    do_process_command(
+      command,
+      ~r/execute\s+service\s+(?<action>watch|unwatch|pause|resume)\s+(?<args[\w\_\-\"\'\`\. ]+)/miU,
+      fn -> :ok end,
+      nil
+      )
+  end
+
+  defp do_process_command(command, regex, action, default_result \\ nil) do
+    regex |> Regex.named_captures(command)
+      |> case do
+        nil -> default_result
+        %{} = map -> map -> map |> action.()
+      end
+  end
+
   # def start(_start_type, _start_args) do
   #   children = [
   #     worker(RabbitMQReceiver, [[], nil, RemoteShellExecutor, :some_method])
@@ -63,21 +80,41 @@ defmodule RemoteShellExecutor do
 
   def parse_args(args) do
     {quoted_args_list, next_args} =
-      (rex = ~r/\"([\w\W]*)\"/mui)
+      (rex = ~r/\"([\w\W]*)\"/miU)
       |> Regex.scan(args, capture: :all_but_first)
       |> case do
         list ->
           updated_args =
             unless list |> Enum.empty? do
-              rex |> Regex.replace(args, "")
+              rex |> replace_quoted_args(args) # Regex.replace(args, "")
             else
               args
             end
           {list |> List.flatten, updated_args}
       end
+    # IO.puts "quoted_qrgs_list: #{inspect quoted_args_list}, next_args: #{next_args}"
     single_args_list = ~r/\s/ |> Regex.split(next_args, trim: true)
+    # Replace dummy "replacement_[num]" args in the list witheir counterparts from quoted_args_list (by number).
+    for arg <- single_args_list do
+      r = ~r/^replacement_(?<number>\d+)$/miU
+      r |> Regex.named_captures(arg)
+      |> case do
+        nil -> arg
+        %{"number" => number} ->
+          quoted_args_list |> Enum.at(number |> String.to_integer)
+      end
+    end
     # IO.puts "Quoted args: #{inspect quoted_args_list}, single args: #{inspect single_args_list}"
-    quoted_args_list ++ single_args_list
+    # quoted_args_list ++ single_args_list
+  end
+
+  defp replace_quoted_args(rex, string) do
+    # Start a 'local' agent to hold the ordinal num of the replacement.
+    {:ok, pid} = Agent.start_link(fn -> 0 end)
+    get_next_num = fn -> pid |> Agent.get_and_update(fn counter -> {counter, counter + 1} end) end
+    replaced_string = rex |> Regex.replace(string, fn _, _ -> "replacement_#{get_next_num.()}" end)
+    pid |> Agent.stop
+    replaced_string
   end
 
 end
