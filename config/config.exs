@@ -19,6 +19,12 @@ config :rabbitmq_sender,
 config :remote_shell_executor,
   scripts_dir: "C:/AX/BuildScripts"
 
+config :service_watcher_sup,
+  bot_queue: "bot_queue",
+  notify_destination: "dpyatkov",
+  default_watch_interval: 5000,
+  scripts_folder: "C:/AX/BuildScripts"
+
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,

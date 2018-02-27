@@ -25,7 +25,7 @@ defmodule RemoteShellExecutor.Application do
         RabbitMQSender,
         [
           [],
-          [name: RabbitMQSender]
+          [name: ReplySender]
           # [exchange: "topic_exchange", exchange_type: :topic, rpc_mode: true]
         ]
       )
